@@ -31,17 +31,8 @@ class News(BaseModel):
 bot = None
 updateIntervalSeconds = 10
 TOKEN = ''
-CHAT_ID = '518992122'
+CHAT_ID = ''
 bot = Bot(TOKEN)
-# if len(sys.argv) > 2:
-#     TOKEN = '7241784770:AAE27EVG_BHjtbmFCubv7uUW0SepW1nSP20'
-#     CHAT_ID = '518992122'
-#     bot = Bot(TOKEN)
-#     if len(sys.argv) > 3:
-#         updateIntervalSeconds = sys.argv[3]
-# else:
-#     print("Usage: bot.py token channel_id [update_interval_seconds: default = 10]")
-#     sys.exit()
 
 
 async def run():
