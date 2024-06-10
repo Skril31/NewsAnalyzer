@@ -30,7 +30,7 @@ class News(BaseModel):
 
 bot = None
 updateIntervalSeconds = 10
-TOKEN = '7241784770:AAE27EVG_BHjtbmFCubv7uUW0SepW1nSP20'
+TOKEN = ''
 CHAT_ID = '518992122'
 bot = Bot(TOKEN)
 # if len(sys.argv) > 2:
