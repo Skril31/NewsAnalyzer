@@ -75,7 +75,7 @@ def parse_sledcom_page(url):
                 entity.names_entity(texts)
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -131,7 +131,7 @@ def parse_mvd_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
             else:
                 print("Новых новостей нет!")
 
@@ -186,7 +186,7 @@ def parse_volgadmin_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
             else:
                 print("Новых новостей нет!")
 
@@ -240,7 +240,7 @@ def parse_volgograd_news_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -301,7 +301,7 @@ def parse_news_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -315,23 +315,12 @@ def parse_news_content(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Находим элемент <article>, содержащий текст новости
-    #article = soup.find(class_='PageLayout_content_box__GIKOo')
-    #article = soup.find( class_='news')
-	#if not article:
-	#	article = soup.find('article')
-
-    # Ищем все параграфы с классом 'Paragraph_paragraph__nYCys'
-    #article = soup.find('news')
-   # if not soup.find('news'):
         article = soup.find('article')
     
         paragraphs = article.find_all('p')
 
     # Собираем текст новости из всех параграфов
         content = ' '.join(paragraph.get_text(strip=True) for paragraph in paragraphs)
-    # Обрезаем контент новости до фразы "ТАСС"
-    #content = content.split('/ТАСС/.', 1)[1]
 
         
     except: 
@@ -378,7 +367,7 @@ def parse_genproc_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -436,7 +425,7 @@ def parse_vesti_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -493,7 +482,7 @@ def parse_rpn_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -549,7 +538,7 @@ def parse_ria_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -605,7 +594,7 @@ def parse_rospotrebnadzor_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                annotation.create_annotations(texts)
+                annotation.create_neural_annotations(texts)
 
             else:
                 print("Новых новостей нет!")
@@ -667,7 +656,6 @@ def parse_oblzdrav_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                #annotation.create_annotations(texts)
                 annotation.create_neural_annotations(texts)
 
             else:
@@ -680,7 +668,6 @@ def parse_oblzdrav_content(url):
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     html = urllib.request.urlopen(url, context=ctx).read()
-    #response = requests.get(url, headers=headers, )
     soup = BeautifulSoup(html, 'html.parser')
     introduction = soup.find('div', class_='col-md-12 col-sm-12 col-xs-12')
     introductionArts = introduction.find_all('p')
@@ -730,7 +717,6 @@ def parse_zmsut_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                #annotation.create_annotations(texts)
                 annotation.create_neural_annotations(texts)
 
             else:
@@ -770,9 +756,7 @@ def parse_fssp_page(url):
         # Явное ожидание элемента, чтобы быть уверенным, что контент загружен
         wait = WebDriverWait(driver, 10)
         latest_news_block = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "css-17qmyy2-CardDesc")))
-        #response = requests.get(url, headers=headers)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
-        #soup = BeautifulSoup(response.text, 'html.parser')
 
         # Находим блок с классом list__item
         latest_news_block = soup.find('div', class_='css-17qmyy2-CardDesc')
@@ -803,7 +787,6 @@ def parse_fssp_page(url):
 
                 cursor.execute("SELECT content FROM news WHERE flag_annotation = 0")
                 texts = cursor.fetchall()
-                #annotation.create_annotations(texts)
                 annotation.create_neural_annotations(texts)
 
             else:
@@ -844,16 +827,16 @@ if __name__ == '__main__':
     while True:
         i += 1
         print(f"{i}-й прогон")
-        #parse_sledcom_page('https://volgograd.sledcom.ru/')
-        #parse_mvd_page('https://34.xn--b1aew.xn--p1ai/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8')
-        #parse_volgadmin_page('https://www.volgadmin.ru/d/list/news/admvlg')
-        #parse_genproc_page('https://epp.genproc.gov.ru/web/proc_34')
-        #parse_vesti_page('https://www.vesti.ru/search?q=%D0%B2%D0%BE%D0%BB%D0%B3%D0%BE%D0%B3%D1%80%D0%B0%D0%B4&type=news&sort=date')
-        #parse_news_page('https://tass.ru/tag/volgogradskaya-oblast')
-        #parse_volgograd_news_page('https://www.volgograd.ru/news/')
-        #parse_rpn_page('https://rpn.gov.ru/regions/34/news')
-        #parse_ria_page('https://ria.ru/search/?query=волгоград')
-        #parse_rospotrebnadzor_page('https://34.rospotrebnadzor.ru')
+        parse_sledcom_page('https://volgograd.sledcom.ru/')
+        parse_mvd_page('https://34.xn--b1aew.xn--p1ai/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8')
+        parse_volgadmin_page('https://www.volgadmin.ru/d/list/news/admvlg')
+        parse_genproc_page('https://epp.genproc.gov.ru/web/proc_34')
+        parse_vesti_page('https://www.vesti.ru/search?q=%D0%B2%D0%BE%D0%BB%D0%B3%D0%BE%D0%B3%D1%80%D0%B0%D0%B4&type=news&sort=date')
+        parse_news_page('https://tass.ru/tag/volgogradskaya-oblast')
+        parse_volgograd_news_page('https://www.volgograd.ru/news/')
+        parse_rpn_page('https://rpn.gov.ru/regions/34/news')
+        parse_ria_page('https://ria.ru/search/?query=волгоград')
+        parse_rospotrebnadzor_page('https://34.rospotrebnadzor.ru')
         parse_oblzdrav_page('https://oblzdrav.volgograd.ru')
         parse_zmsut_page('https://zmsut.sledcom.ru/search?q=волгоград&radio_group=on&sort=date&from=&to=')
         parse_fssp_page('https://r34.fssp.gov.ru/press-sluzhba/news')
